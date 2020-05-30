@@ -1,0 +1,43 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <style>
+        #map{
+            position: relative;
+            width: 100%;
+            height: 75%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <center>
+        <input id="userLat" type="text" name="val-lat" value="User Latitude" />
+        <input id="userLng" type="text" name="val-lng" value="User Longitude" />
+    </center>
+    <script>
+        var map = L.map('map').setView([-7.276220, 112.793793], 10);
+
+        L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=n48SGXYIF2Txt3daQ4Rx'
+        , {attribution :'<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>', })
+            .addTo(map);
+        var pens = L.marker([-7.276220, 112.793793]).addTo(map);
+        var sidoarjo = L.marker([-7.474164, 112.716949]).addTo(map);
+        var surabaya = L.marker([-7.246184, 112.737814]).addTo(map);
+
+        // attaching function on map click
+        map.on('click', onMapClick);
+
+        var marker;
+        function onMapClick(e) {
+                marker = new L.Marker(e.latlng, {draggable:true});
+                map.addLayer(marker);
+                // marker.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+                var ll = marker.getLatLng();
+                document.querySelector('#userLat').value = ll.lat;
+                document.querySelector('#userLng').value = ll.lng;
+        };        
+    </script>
+</body>
+</html>
